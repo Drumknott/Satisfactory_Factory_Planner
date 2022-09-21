@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Satisfactory_Objects", "Satisfactory_Objects\Satisfactory_Objects.csproj", "{3D951EE6-1B98-4731-BEE1-83205AE9CA91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factory_Planner_Basic_UI", "Factory_Planner_Basic_UI\Factory_Planner_Basic_UI.csproj", "{1AAEC728-C82D-460A-9179-82F572BEBA4B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D951EE6-1B98-4731-BEE1-83205AE9CA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D951EE6-1B98-4731-BEE1-83205AE9CA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D951EE6-1B98-4731-BEE1-83205AE9CA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D951EE6-1B98-4731-BEE1-83205AE9CA91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AAEC728-C82D-460A-9179-82F572BEBA4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AAEC728-C82D-460A-9179-82F572BEBA4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AAEC728-C82D-460A-9179-82F572BEBA4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AAEC728-C82D-460A-9179-82F572BEBA4B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {329544D4-9F97-42EE-B46C-27F37EB27382}
+	EndGlobalSection
+EndGlobal
