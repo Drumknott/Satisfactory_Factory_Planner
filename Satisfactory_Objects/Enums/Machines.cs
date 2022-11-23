@@ -16,6 +16,8 @@ namespace Satisfactory_Objects.Enums
         Constructor,
         Assembler,
         Manufacturer,
-        Refinery
+        Refinery,
+        OilExtractor,
+        WaterExtractor
     }
 }

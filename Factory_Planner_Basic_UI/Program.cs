@@ -8,13 +8,21 @@ using Satisfactory_Objects.Recipes;
 //test.TestJSON();
 //Console.ReadKey();
 
+/*
+* Matt - you had to change your Recipe.AlternateRecipe from a KeyValuePair to a new class you wrote, AltRecipeManager, so you can edit the isAltRecipeUnlocked bool.
+* This means you now have to go back and edit your JSON data to reflect this. You need to change the Key and Value to isAltRecipe and isAltRecipeUnlocked. 
+* COPY THE JSON FILE FIRST IN CASE THIS DOESN'T WORK AND YOU HAVE TO UNDO IT ALL AGAIN
+*/
+
+
+
+
 Recipe_List recipes = new();
 
 while (true)
 {
     Console.WriteLine("\n1 > Plan a Factory");
     Console.WriteLine("2 > Use a Harddrive to unlock a recipe");
-    Console.WriteLine("3 > Unlock recipe (test method)");
     Console.WriteLine("0 > Quit");
 
     switch (Console.ReadLine())
@@ -36,31 +44,25 @@ while (true)
                     Console.WriteLine("I'm sorry I don't recognise that item. Try again");
                     break;
                 }
+                FactoryBuilder factory = new(recipes);
+
+                Console.WriteLine($"\nDo you want to use Power Shards? Y/N");
+                var userChoice = Console.ReadLine();
+                if (userChoice == "Y") factory.usePowerShards = true;
+                else factory.usePowerShards = false;
+
+                //Implement crafting Methods that work without power shards//
 
                 Dictionary<Items, decimal> keyItem = new Dictionary<Items, decimal>();
                 keyItem.Add(item, targetRate);
-
-                FactoryBuilder factory = new(recipes);
+                
                 factory.PlanFactory(keyItem, output);
 
                 output.PrintOutput();
             }
             else Console.WriteLine("Error. Try again");
-            break;
+            break;       
         case "2":
-            Console.WriteLine("Which recipe do you want to unlock?\n");
-
-            Alternative_Recipes altRecipes = new();
-            for (int i = 0; i < altRecipes.altRecipes.Count; i++)
-            {
-                Console.WriteLine($"{i}: {altRecipes.altRecipes[i]}");
-            }
-            int input = Convert.ToInt32(Console.ReadLine());
-            var unlocked = UnlockRecipe(input, altRecipes.altRecipes);
-
-            Console.WriteLine($"Recipe Unlocked: {unlocked}");
-            break;
-        case "3":
             Console.WriteLine("What resource do you want to unlock a recipe for?");
             var chosenResource = Console.ReadLine();
             var success = Enum.TryParse(chosenResource, out Items result);
@@ -71,20 +73,31 @@ while (true)
 
                 foreach (Recipe recipe in recipes.fullRecipeList)
                 {
-                    if (recipe.ItemProduced.Key == result)
+                    if (recipe.ItemProduced.Key == result && recipe.AlternateRecipe.Key == true)
                     {
-                        Console.WriteLine($"{i}. {recipe.ItemProduced.Key} = {recipe.Resources.Keys}");
-                        tempList[i] = recipes.fullRecipeList.IndexOf(recipe);
+                        Console.WriteLine($"{i}. {recipe.ItemProduced.Key};");
+                        PrintResources(recipe);
+                        tempList.Add(recipes.fullRecipeList.IndexOf(recipe));
+                        i++;
+
+                        void PrintResources(Recipe recipe)
+                        {
+                            foreach (KeyValuePair<Items, decimal> resource in recipe.Resources)
+                            {
+                                Console.WriteLine($"\t{resource.Key}");
+                            }
+                        }
                     }
                 }
 
                 Console.WriteLine("Which recipe do you want to unlock?");
                 int userchoice = Convert.ToInt32(Console.ReadLine());
 
-                recipes.fullRecipeList[tempList[userchoice]].AlternateRecipe.Value = true;
-                
-                
+                recipes.fullRecipeList[tempList[userchoice -1]].AlternateRecipe.Value = true;
+
+                Console.WriteLine($"\nAlternate Recipe Unlocked\n");
             }
+            else Console.WriteLine("error");
             break;
         case "0": return;
         default:
@@ -93,15 +106,5 @@ while (true)
     }
 }
 
-string UnlockRecipe(int input, List<bool> altRecipes)
-{
 
-    if (altRecipes[input] == false)
-    {
-        altRecipes[input] = true;
-    }
-    return $"{altRecipes[input]}";
-
-
-}
 

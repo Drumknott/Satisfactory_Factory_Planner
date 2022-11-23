@@ -131,6 +131,8 @@ namespace Satisfactory_Objects.Enums
         fusedModularFrame,
         turboRifleAmmo,
         uraniumFuelRod,
+        modularEngine,
+        radioControlSystem,
 
         //packaged Items
         packagedAluminaSoloution,
@@ -142,6 +144,26 @@ namespace Satisfactory_Objects.Enums
         packagedOil,
         packagedSulfuricAcid,
         packagedTurbofuel,
-        packagedWater
+        packagedWater,
+
+        //fluids
+        water,
+        aluminaSoloution,
+        fuel,
+        heavyOilResidue,
+        liquidBiofuel,
+        nitricAcid,
+        crudeOil,
+        sulfuricAcid,
+        turbofuel,
+        residualFuel,
+
+        //Refinery Items
+        polyesterFabric,
+        residualPlastic,
+        residualRubber,
+        smokelessPowder
+
+
     }
 }

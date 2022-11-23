@@ -10,10 +10,10 @@ namespace Satisfactory_Objects.Recipes
 {
     public class Recipe
     {
-        public KeyValuePair<Items, decimal> ItemProduced { get;}
-        public Dictionary<Items, decimal> Resources { get;}
-        public Dictionary<Items, decimal> Byproducts { get;}
-        public KeyValuePair<bool, bool> AlternateRecipe { get; set; } // <Is alt recipe, alt recipe unlocked>
-        public Machines Machine { get; }
+        public KeyValuePair<Items, decimal> ItemProduced { get; set; }
+        public Dictionary<Items, decimal> Resources { get; set;}
+        public Dictionary<Items, decimal> Byproducts { get; set; }
+        public AltRecipeManager AlternateRecipe { get; set; } // <Is alt recipe, alt recipe unlocked>
+        public Machines Machine { get; set; }
     }
 }

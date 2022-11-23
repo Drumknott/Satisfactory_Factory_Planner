@@ -11,7 +11,8 @@ namespace Satisfactory_Objects
 {
     public class FactoryBuilder
     {
-        Recipe_List recipeList { get; set; }     
+        Recipe_List recipeList { get; set; }
+        public bool usePowerShards { get; set; } = false;
 
         public FactoryBuilder(Recipe_List list)
         {
@@ -44,26 +45,31 @@ namespace Satisfactory_Objects
 
             foreach (Recipe recipe in recipeList.fullRecipeList)
             {
-                bool recipeAvailable = false;
-
-                if ((recipe.AlternateRecipe.Key == true && recipe.AlternateRecipe.Value == true) || (recipe.AlternateRecipe.Key == false))
+                if (recipe.ItemProduced.Key == item.Key)
                 {
-                    recipeAvailable = true;
-                }
+                    bool recipeAvailable = false;
 
-                if (recipe.ItemProduced.Key == item.Key && recipeAvailable)
-                {
-                    List<Items> tempList = new List<Items>();
-                    foreach (KeyValuePair<Items, decimal> resource in recipe.Resources)
+                    if ((recipe.AlternateRecipe.Key == true && recipe.AlternateRecipe.Value == true) || (recipe.AlternateRecipe.Key == false))
                     {
-                        tempList.Add(resource.Key);
+                        recipeAvailable = true;
                     }
 
-                    Console.WriteLine($"{i}.{recipe.ItemProduced.Key} = {string.Join("; ", tempList)}");
-                    tempRecipes[i] = recipe;
-                    i++;
+                    if (recipeAvailable)
+                    {
+                        List<Items> tempList = new List<Items>();
+                        foreach (KeyValuePair<Items, decimal> resource in recipe.Resources)
+                        {
+                            tempList.Add(resource.Key);
+                        }
+
+                        Console.WriteLine($"{i}.{recipe.ItemProduced.Key} = {string.Join("; ", tempList)}");
+                        tempRecipes[i] = recipe;
+                        i++;
+                    }
                 }
             }
+
+            if (i == 1) Console.WriteLine("Error - No recipe");
 
             if (i == 2) return tempRecipes[1];
             else
@@ -101,15 +107,17 @@ namespace Satisfactory_Objects
                 case Machines.Manufacturer:
                 case Machines.Foundry:
                     IBuilding assembler = new Assembler();
-                    (result, numberOfMachinesNeeded, numberOfPowerShardsNeeded) = assembler.Build(chosenRecipe, targetOutput);                    
+                    (result, numberOfMachinesNeeded, numberOfPowerShardsNeeded) = assembler.Build(chosenRecipe, targetOutput, usePowerShards);                    
                     break;
                 case Machines.Refinery:
                     Refinery refinery = new();
-                    (result, byproducts, numberOfMachinesNeeded, numberOfPowerShardsNeeded) = refinery.Process(chosenRecipe, targetOutput);                    
+                    (result, byproducts, numberOfMachinesNeeded, numberOfPowerShardsNeeded) = refinery.Process(chosenRecipe, targetOutput, usePowerShards);                    
                     break;
                 case Machines.Miner:
+                case Machines.OilExtractor:
+                case Machines.WaterExtractor:
                     Miner miner = new();
-                    (result, numberOfMachinesNeeded, numberOfPowerShardsNeeded) = miner.Mine(chosenRecipe, targetOutput);                    
+                    (result, numberOfMachinesNeeded, numberOfPowerShardsNeeded) = miner.Mine(chosenRecipe, targetOutput, usePowerShards);                    
                     break;
             }
 
