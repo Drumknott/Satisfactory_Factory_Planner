@@ -11,16 +11,15 @@ namespace Satisfactory_Objects
 {
     public class FactoryBuilder
     {
-        Recipe_List recipeList { get; set; }
+        Recipe_List recipes { get; set; }
         public bool usePowerShards { get; set; } = false;
 
-        public FactoryBuilder(Recipe_List list)
+        public FactoryBuilder(Recipe_List _recipes)
         {
-            recipeList = list;            
+            recipes = _recipes;            
         }
 
-        
-
+        // Given an item and rate of production, return everything needed to produce that item
         public void PlanFactory(Dictionary<Items, decimal> keyItem, Output output)
         {
             if (keyItem.Count != 0)
@@ -36,14 +35,13 @@ namespace Satisfactory_Objects
             }            
         }
 
+
+        // Get recipe for key item from full recipe list. Allows user to choose alt recipes
         public Recipe GetRecipe(KeyValuePair<Items, decimal> item)
         {
-            int i = 1;
-            Recipe[] arrayTempRecipes = new Recipe[8];
-            List<Recipe> tempRecipes = arrayTempRecipes.ToList<Recipe>();
-            
+            List<Recipe> tempRecipes = new();   
 
-            foreach (Recipe recipe in recipeList.fullRecipeList)
+            foreach (Recipe recipe in recipes.fullRecipeList)
             {
                 if (recipe.ItemProduced.Key == item.Key)
                 {
@@ -55,43 +53,35 @@ namespace Satisfactory_Objects
                     }
 
                     if (recipeAvailable)
-                    {
-                        List<Items> tempList = new List<Items>();
-                        foreach (KeyValuePair<Items, decimal> resource in recipe.Resources)
-                        {
-                            tempList.Add(resource.Key);
-                        }
-
-                        Console.WriteLine($"{i}.{recipe.ItemProduced.Key} = {string.Join("; ", tempList)}");
-                        tempRecipes[i] = recipe;
-                        i++;
+                    {                        
+                        tempRecipes.Add(recipe);  
                     }
                 }
             }
 
-            if (i == 1) Console.WriteLine("Error - No recipe");
-
-            if (i == 2) return tempRecipes[1];
+            if (tempRecipes.Count == 0) Console.WriteLine("Error - No recipe");
+            if (tempRecipes.Count() == 1) return tempRecipes[0];
             else
             {
-                Console.WriteLine($"\nWhich recipe would you like to use?\n");
-                var userChoice = Convert.ToInt32(Console.ReadLine());
-
-                switch (userChoice)
+                foreach(Recipe recipe in tempRecipes)
                 {
-                    default:
-                    case 1: return tempRecipes[1];
-                    case 2: return tempRecipes[2];
-                    case 3: return tempRecipes[3];
-                    case 4: return tempRecipes[4];
-                    case 5: return tempRecipes[5];
-                    case 6: return tempRecipes[6];
-                    case 7: return tempRecipes[7];
-                    case 8: return tempRecipes[8];
+                    string recipeResources = "";
+                    foreach(KeyValuePair<Items, decimal> resource in recipe.Resources)
+                    {
+                        recipeResources += $"{resource.Key}, ";
+                    }
+
+                    Console.WriteLine($"{tempRecipes.IndexOf(recipe) + 1}. {recipe.ItemProduced.Key}: {recipeResources}");
                 }
+
+                Console.WriteLine($"\nWhich recipe would you like to use?\n");
+                var userChoice = Convert.ToInt32(Console.ReadLine()) - 1;
+                return tempRecipes[userChoice];             
             }
         }
 
+
+        // Calculate what and how much is needed to create the current item, add to output list
         public Dictionary<Items, decimal> BuildFactory(Recipe chosenRecipe, decimal targetOutput, Output output)
         {
             Dictionary<Items, decimal> result = new Dictionary<Items, decimal>();

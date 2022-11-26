@@ -13,7 +13,7 @@ namespace Satisfactory_Objects.Recipes
         public KeyValuePair<Items, decimal> ItemProduced { get; set; }
         public Dictionary<Items, decimal> Resources { get; set;}
         public Dictionary<Items, decimal> Byproducts { get; set; }
-        public AltRecipeManager AlternateRecipe { get; set; } // <Is alt recipe, alt recipe unlocked>
+        public IsAltRecipe AlternateRecipe { get; set; } // <Is alt recipe, alt recipe unlocked>
         public Machines Machine { get; set; }
     }
 }

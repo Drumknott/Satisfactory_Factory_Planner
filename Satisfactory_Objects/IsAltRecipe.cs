@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Satisfactory_Objects
 {
-    public class AltRecipeManager
+    public class IsAltRecipe
     {
         public bool Key { get; set; }
         public bool Value { get; set; }
